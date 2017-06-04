@@ -1,18 +1,15 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!
+  before_action :redis_client, only: %i[create index]
 
   def index
-    client = Redis.new(host: 'redis')
-
-    @messages = client.lrange('todo-user_messages', 0, -1)
+    @messages = @redis_client.lrange(current_user.email, 0, -1)
   end
 
   def create
-    # TODO: define proper #create action implementation
+    @redis_client.lpush(current_user.email, message_params.to_json)
 
-    client = Redis.new(host: 'redis')
-    client.lpush('todo-user_messages', message_params.to_json)
-    render plain: client.lrange('todo_user_messages', 0, -1)
+    redirect_to messages_path
   end
 
   def edit
@@ -28,6 +25,10 @@ class MessagesController < ApplicationController
   end
 
   private
+
+  def redis_client
+    @redis_client ||= Redis.new(host: 'redis')
+  end
 
   def message_params
     params.require(:message).permit(:title, :content)
