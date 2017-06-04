@@ -7,10 +7,6 @@ class MessagesController < ApplicationController
     render plain: 'TODO: show'
   end
 
-  def new
-    render plain: 'TODO: new'
-  end
-
   def create
     render plain: 'TODO: create'
   end

@@ -1,0 +1,8 @@
+<%= form_tag messages_path do %>
+  <%= fields_for :message do |f| %>
+    <%= f.text_field :title, placeholder: t(:title) %>
+    <%= f.text_area :content, placeholder: t(:content) %>
+  <% end %>
+
+  <%= submit_tag t(:send_message) %>
+<% end %>

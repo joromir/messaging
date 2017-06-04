@@ -31,3 +31,6 @@
 
 en:
   hello: "Hello world"
+  send_message: "Send Message"
+  title: "Title"
+  content: "Content"
