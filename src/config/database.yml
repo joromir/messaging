@@ -6,10 +6,10 @@ default: &default
 
 development:
   <<: *default
-  database: messaging_development
+  url: postgresql://postgres/messaging_development?pool=5
 test:
   <<: *default
-  database: messaging_test
+  url: postgresql://postgres/messaging_test?pool=5
 production:
   <<: *default
   database: messaging_production
