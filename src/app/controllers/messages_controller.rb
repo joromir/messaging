@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
   def index
     client = Redis.new(host: 'redis')
 
-    @messages = client.lrange('122', 0, -1)
+    @messages = client.lrange('todo-user_messages', 0, -1)
   end
 
   def show
@@ -10,12 +10,11 @@ class MessagesController < ApplicationController
   end
 
   def create
+    # TODO: define proper #create action implementation
+
     client = Redis.new(host: 'redis')
-
-
-    client.lpush('122', message_params.to_json)
-
-    render plain: client.fetch('122')
+    client.lpush('todo-user_messages', message_params.to_json)
+    render plain: client.lrange('todo_user_messages', 0, -1)
   end
 
   def edit
