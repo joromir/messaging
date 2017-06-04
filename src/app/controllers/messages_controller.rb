@@ -1,6 +1,8 @@
 class MessagesController < ApplicationController
   def index
-    render plain: 'TODO: index'
+    client = Redis.new(host: 'redis')
+
+    @messages = client.lrange('122', 0, -1)
   end
 
   def show
@@ -8,7 +10,12 @@ class MessagesController < ApplicationController
   end
 
   def create
-    render plain: 'TODO: create'
+    client = Redis.new(host: 'redis')
+
+
+    client.lpush('122', message_params.to_json)
+
+    render plain: client.fetch('122')
   end
 
   def edit
@@ -21,5 +28,11 @@ class MessagesController < ApplicationController
 
   def destroy
     render plain: 'TODO: destroy'
+  end
+
+  private
+
+  def message_params
+    params.require(:message).permit(:title, :content)
   end
 end
