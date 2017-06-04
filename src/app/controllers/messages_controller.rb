@@ -1,12 +1,10 @@
 class MessagesController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     client = Redis.new(host: 'redis')
 
     @messages = client.lrange('todo-user_messages', 0, -1)
-  end
-
-  def show
-    render plain: 'TODO: show'
   end
 
   def create
